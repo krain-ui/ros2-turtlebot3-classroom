@@ -1,0 +1,35 @@
+{
+  "name": "ROS2 Humble + TurtleBot3 Classroom",
+  "image": "osrf/ros:humble-desktop-full",
+  "runArgs": [
+    "--privileged",
+    "--net=host"
+  ],
+
+  // 1. เปิดหน้าจอจำลอง Gazebo ผ่านเว็บเบราว์เซอร์ได้ทันที
+  "features": {
+    "ghcr.io/devcontainers/features/desktop-lite:1": {}
+  },
+
+  // 2. ส่งต่อพอร์ต 6080 สำหรับดูหน้าจอ Gazebo
+  "forwardPorts":,
+  "portsAttributes": {
+    "6080": {
+      "label": "Gazebo Simulator Screen",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  // 3. ติดตั้งส่วนเสริม ROS 2 และ Python ใน VS Code ให้นักเรียนอัตโนมัติ
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-iot.vscode-ros",
+        "ms-python.python"
+      ]
+    }
+  },
+
+  // 4. ติดตั้งแพ็กเกจ TurtleBot3 และตั้งค่ารุ่นหุ่นยนต์ (burger) อัตโนมัติ
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y ros-humble-turtlebot3* && echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc && echo 'export TURTLEBOT3_MODEL=burger' >> ~/.bashrc && echo 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/opt/ros/humble/share/turtlebot3_gazebo/models' >> ~/.bashrc"
+}
